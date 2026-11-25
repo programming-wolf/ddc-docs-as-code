@@ -1,0 +1,173 @@
+/* DDC-HTML-Theme: dunkler Hintergrund, weiße Schrift, Highlight #c9f04c, Akzent #6f42c1.
+   Baut auf der unveränderten Kopie des Asciidoctor-Standard-Stylesheets daneben auf
+   (default-theme.css, liegt im Build unter css/ neben dieser Datei). */
+@import "default-theme.css";
+
+/* === Schriften: selbst gehostet ===
+   Poppins (Fließtext) und Orbitron (Titel), beide SIL Open Font License, siehe ddc/fonts/OFL-*.txt.
+   Theme-spezifische Dateien liegen in ddc/ und landen beim Build neben dieser Datei (css/fonts, css/img). */
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-Regular.ttf") format("truetype");    font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-Italic.ttf") format("truetype");     font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-SemiBold.ttf") format("truetype");   font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-Bold.ttf") format("truetype");       font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("fonts/Poppins-BoldItalic.ttf") format("truetype"); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Orbitron"; src: url("fonts/Orbitron-Bold.woff2") format("woff2");      font-weight: 700; font-style: normal; font-display: swap; }
+
+/* === Farben: hier zentral ändern === */
+:root {
+  --ddc-bg: #000;
+  --ddc-surface: #141414;        /* Kästen: Code, Sidebar, TOC, Tabellenkopf */
+  --ddc-surface-alt: #1c1c1c;    /* Tabellenstreifen */
+  --ddc-text: #fff;
+  --ddc-text-muted: rgba(255, 255, 255, .7);
+  --ddc-border: #333;
+  --ddc-highlight: #c9f04c;      /* Links, Bullets, Linien, Rahmen */
+  --ddc-accent: #6f42c1;         /* Callout-Nummern, Anführungszeichen */
+  --ddc-accent-light: #b7a0e0;   /* Icons NOTE/TIP: #6f42c1 ist auf Schwarz zu dunkel */
+  --ddc-font-text: "Poppins", "DejaVu Sans", sans-serif;
+  --ddc-font-title: "Orbitron", "Poppins", sans-serif;
+  color-scheme: dark;
+}
+
+/* === Schriften === */
+body,
+#toc ul,
+.admonitionblock > table td.icon .title,
+.verseblock pre,
+.conum[data-value] {
+  font-family: var(--ddc-font-text);
+}
+
+/* Blocktitel (Tabellen, Bilder, Listings): im Standard Serif kursiv */
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title,
+.imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title,
+.openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title,
+.verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title,
+.ulist > .title, .qlist > .title, .hdlist > .title {
+  font-family: var(--ddc-font-text);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ddc-text-muted);
+}
+
+/* Titel: Orbitron bis h3. Orbitron ist breit, deshalb kleinere Stufen in Poppins SemiBold */
+h1, h2, h3, h4, h5, h6, #toctitle, .sidebarblock > .content > .title {
+  font-family: var(--ddc-font-text);
+  font-weight: 600;
+}
+h1, h2, h3, #toctitle {
+  font-family: var(--ddc-font-title);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* === Grundfarben === */
+body {
+  background: var(--ddc-bg);
+  color: var(--ddc-text);
+}
+h1, h2, h3, h4, h5, h6, #toctitle, .sidebarblock > .content > .title,
+#header > h1:first-child, #content > h1:first-child:not([class]),
+#content h1 > a.link, h2 > a.link, h3 > a.link, h4 > a.link, h5 > a.link, h6 > a.link,
+#toctitle > a.link, .sidebarblock > .content > .title > a.link,
+.paragraph.lead > p, #preamble > .sectionbody > [class=paragraph]:first-of-type p,
+blockquote, blockquote p, .quoteblock blockquote, .quoteblock p, .verseblock pre,
+table tr th, table tr td, table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td,
+tbody tr th, tbody tr th p, tfoot tr th, tfoot tr th p,
+code, pre, kbd, .menuseq, .menuref, .keyseq {
+  color: var(--ddc-text);
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, #toctitle small,
+#header .details, #header .details span.email a, #header .details br + span.author::before,
+.subheader, .quoteblock .attribution cite, .verseblock .attribution cite,
+.admonitionblock > table td.content {
+  color: var(--ddc-text-muted);
+}
+
+a, #toc a { color: var(--ddc-highlight); }
+a:hover, a:focus, #content h1 > a.link:hover, h2 > a.link:hover, h3 > a.link:hover,
+h4 > a.link:hover, h5 > a.link:hover, h6 > a.link:hover { color: var(--ddc-text); }
+
+/* === Highlight: Bullets, Linien, Rahmen === */
+ul li::marker, ol li::marker { color: var(--ddc-highlight); }
+hr,
+.sect1 + .sect1,
+#header > h1:first-child + #toc,
+#header > h1:only-child,
+#header .details,
+body.toc2 #header > h1:nth-last-child(2),
+#content > h1:first-child:not([class]) {
+  border-color: var(--ddc-highlight);
+}
+#toc { border-bottom-color: var(--ddc-border); }
+#toc.toc2 {
+  background: var(--ddc-surface);
+  border-right-color: var(--ddc-highlight);
+}
+body.toc2.toc-right #toc.toc2 { border-left-color: var(--ddc-highlight); }
+blockquote,
+.quoteblock.excerpt > blockquote, .quoteblock .quoteblock,
+.admonitionblock > table td.content {
+  border-left-color: var(--ddc-highlight);
+}
+.quoteblock blockquote::before { color: var(--ddc-accent); text-shadow: none; }
+.conum[data-value] { background: var(--ddc-accent); }
+abbr[title] { border-bottom-color: var(--ddc-highlight); }
+
+/* Admonition-Icons: Standardfarben sind für hellen Hintergrund gedacht */
+.admonitionblock td.icon .icon-note::before,
+.admonitionblock td.icon .icon-tip::before { color: var(--ddc-accent-light); text-shadow: none; }
+.admonitionblock td.icon .icon-warning::before { color: #ffb347; }
+.admonitionblock td.icon .icon-caution::before { color: #ff7f50; }
+.admonitionblock td.icon .icon-important::before { color: #ff6b6b; }
+
+/* === Flächen: Code, Sidebar, Beispiel, Tabellen, TOC im Inhalt === */
+:not(pre):not([class^=L]) > code,
+.literalblock pre, .listingblock > .content > pre:not(.highlight),
+.listingblock > .content > pre[class=highlight], .listingblock > .content > pre[class^="highlight "],
+.prettyprint, kbd,
+#content #toc,
+.sidebarblock,
+table thead, table tfoot, tbody tr th {
+  background: var(--ddc-surface);
+}
+kbd { border-color: var(--ddc-border); box-shadow: none; }
+.exampleblock > .content {
+  background: var(--ddc-bg);
+  border-color: var(--ddc-border);
+}
+.sidebarblock, #content #toc { border-color: var(--ddc-border); }
+table { background: var(--ddc-bg); border-color: var(--ddc-border); }
+table.tableblock, th.tableblock, td.tableblock { border-color: var(--ddc-border); }
+table tr.even, table tr.alt,
+table.stripes-all > * > tr, table.stripes-odd > * > tr:nth-of-type(odd),
+table.stripes-even > * > tr:nth-of-type(even), table.stripes-hover > * > tr:hover {
+  background: var(--ddc-surface-alt);
+}
+.thumb, .th { border-color: var(--ddc-bg); box-shadow: 0 0 0 1px var(--ddc-border); }
+#footer { background: var(--ddc-surface); border-top: 1px solid var(--ddc-highlight); }
+
+/* Bilder mit transparentem Hintergrund (z. B. das arc42-Logo) sind für Weiß gemacht */
+.imageblock img, .image img { background: #fff; }
+
+/* === Logo oben links ===
+   Ohne Seitenleiste über dem Titel, mit :toc: left oben in der Seitenleiste (ab 768px).
+   Logo: ddc/img/ddc-logo.svg, erzeugt mit ddc/img/ddc-logo.py (Orbitron-Umrisse).
+   Bewusst als Hintergrundbild, nicht als CSS-Maske: Masken greifen nicht, wenn das HTML per file:// geöffnet wird. */
+:root {
+  --ddc-logo: url("img/ddc-logo.svg");
+}
+#header::before,
+#toc.toc2::before {
+  content: "";
+  display: block;
+  width: 160px;
+  aspect-ratio: 2917 / 800;
+  margin: 1.5rem 0 0.5rem;
+  background: var(--ddc-logo) no-repeat left center / contain;
+}
+#toc.toc2::before { display: none; }
+@media screen and (min-width: 768px) {
+  body.toc2 #header::before { display: none; }
+  #toc.toc2::before { display: block; width: 140px; margin: 0 0 1.25rem; }
+}
