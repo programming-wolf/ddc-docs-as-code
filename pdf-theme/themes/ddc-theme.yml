@@ -1,0 +1,62 @@
+# DDC-PDF-Theme (Platzhalter-Farben, bis Logo und Farben der Veranstalter da sind).
+# Baut auf dem unveränderten Standard-Theme auf und überschreibt nur, was anders ist.
+# Nachschlagewerk für alle Schlüssel: default-theme.yml (nicht ändern).
+extends: default-theme.yml
+
+font:
+  catalog:
+    # Standard-Fonts aus dem Gem behalten (Noto Serif, M+ 1mn) und eigene ergänzen
+    merge: true
+    # Fließtext. Dateien und Lizenz (OFL-Poppins.txt) in pdf-theme/ddc/fonts/
+    Poppins:
+      normal: Poppins-Regular.ttf
+      italic: Poppins-Italic.ttf
+      bold: Poppins-Bold.ttf
+      bold_italic: Poppins-BoldItalic.ttf
+    Poppins SemiBold:
+      normal: Poppins-SemiBold.ttf
+      italic: Poppins-SemiBold.ttf
+      bold: Poppins-Bold.ttf
+      bold_italic: Poppins-BoldItalic.ttf
+    # Titel. Es gibt nur den Bold-Schnitt, deshalb zeigen alle Stile darauf. Lizenz: pdf-theme/ddc/fonts/OFL-Orbitron.txt
+    Orbitron:
+      normal: Orbitron-Bold.ttf
+      italic: Orbitron-Bold.ttf
+      bold: Orbitron-Bold.ttf
+      bold_italic: Orbitron-Bold.ttf
+  # Zeichen, die Poppins nicht hat, kommen aus Noto Serif
+  fallbacks: [Noto Serif]
+
+ddc:
+  primary: 6F42C1
+
+base:
+  font_family: Poppins
+  font_size: 10
+  text_align: left
+
+link:
+  font_color: $ddc_primary
+
+heading:
+  font_family: Orbitron
+  font_color: $ddc_primary
+  # Orbitron ist breit: kleinere Stufen in Poppins SemiBold, damit sie lesbar bleiben
+  h4_font_family: Poppins SemiBold
+  h5_font_family: Poppins SemiBold
+  h6_font_family: Poppins SemiBold
+
+title_page:
+  title:
+    font_family: Orbitron
+    font_color: $ddc_primary
+  subtitle:
+    font_family: Poppins SemiBold
+
+footer:
+  recto:
+    left:
+      content: Docs-as-Code Workshop · DDC Köln
+  verso:
+    right:
+      content: Docs-as-Code Workshop · DDC Köln

@@ -39,6 +39,13 @@ for theme in ${*:-default}; do
           -a linkcss -a stylesdir=css -a stylesheet="$theme-theme.css" \
           -a docinfodir="/work/html-theme/$theme" -a docinfo=shared \
           "$DOC" ;;
+      pdf)
+        # Theme-YAML und Fonts per Attribut einbinden; Fonts aus pdf-theme/<theme>/fonts, sonst aus dem Gem
+        run asciidoctor-pdf -D "$out" \
+          -a pdf-themesdir=/work/pdf-theme/themes -a pdf-theme="$theme" \
+          -a pdf-fontsdir="/work/pdf-theme/$theme/fonts;GEM_FONTS_DIR" \
+          "$DOC" ;;
+      *) echo "Unbekanntes Format: $format" >&2; exit 1 ;;
     esac
   done
 
