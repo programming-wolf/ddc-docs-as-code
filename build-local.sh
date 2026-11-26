@@ -30,6 +30,10 @@ for theme in ${*:-default}; do
         # CSS verlinken (nicht einbetten) und docinfo einbinden; CSS und Bilder neben das HTML kopieren
         mkdir -p "$out/css"
         cp html-theme/*.css "$out/css/"
+        # Theme-spezifische Dateien (Fonts, Bilder) aus html-theme/<theme>/, falls vorhanden
+        for dir in fonts img; do
+          [ ! -d "html-theme/$theme/$dir" ] || cp -R "html-theme/$theme/$dir" "$out/css/"
+        done
         cp -R docs/images "$out/"
         run asciidoctor -D "$out" \
           -a linkcss -a stylesdir=css -a stylesheet="$theme-theme.css" \
