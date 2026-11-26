@@ -47,6 +47,13 @@ rem CSS verlinken (nicht einbetten) und docinfo einbinden; CSS und Bilder neben 
 if not exist "%out%\css" mkdir "%out%\css"
 copy /Y "html-theme\*.css" "%out%\css\" >nul
 if errorlevel 1 exit /b 1
+rem Theme-spezifische Dateien (Fonts, Bilder) aus html-theme\<theme>\, falls vorhanden
+for %%D in (fonts img) do (
+  if exist "html-theme\%theme%\%%D\" (
+    xcopy /E /I /Y /Q "html-theme\%theme%\%%D" "%out%\css\%%D" >nul
+    if errorlevel 1 exit /b 1
+  )
+)
 xcopy /E /I /Y /Q "docs\images" "%out%\images" >nul
 if errorlevel 1 exit /b 1
 
