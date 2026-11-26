@@ -8,6 +8,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 rem Was gebaut wird
+set "FORMATS=html"
 set "DOC=docs/arc42-template.adoc"
 set "IMAGE=ruby:4.0.10-alpine3.24"
 
@@ -37,12 +38,21 @@ docker run --rm -v "%CD%:/work" -w /work ^
 exit /b %errorlevel%
 
 rem ---------------------------------------------------------------
-rem Ein Theme bauen (HTML)
+rem Ein Theme bauen (alle Formate aus FORMATS)
 rem ---------------------------------------------------------------
 :build
 set "theme=%~1"
 set "out=build\%theme%"
 
+for %%F in (%FORMATS%) do (
+  call :build_%%F
+  if errorlevel 1 exit /b 1
+)
+
+echo -^> %out%\
+exit /b 0
+
+:build_html
 rem CSS verlinken (nicht einbetten) und docinfo einbinden; CSS und Bilder neben das HTML kopieren
 if not exist "%out%\css" mkdir "%out%\css"
 copy /Y "html-theme\*.css" "%out%\css\" >nul
@@ -61,7 +71,13 @@ call :run asciidoctor -D "build/%theme%" ^
   -a linkcss -a stylesdir=css -a stylesheet="%theme%-theme.css" ^
   -a docinfodir="/work/html-theme/%theme%" -a docinfo=shared ^
   "%DOC%"
-if errorlevel 1 exit /b 1
+exit /b %errorlevel%
 
-echo -^> %out%\
-exit /b 0
+:build_pdf
+rem Theme-YAML und Fonts per Attribut einbinden; Fonts aus pdf-theme/<theme>/fonts, sonst aus dem Gem
+call :run asciidoctor-pdf -D "build/%theme%" ^
+  -a pdf-themesdir=/work/pdf-theme/themes -a pdf-theme="%theme%" ^
+  -a pdf-fontsdir="/work/pdf-theme/%theme%/fonts;GEM_FONTS_DIR" ^
+  "%DOC%"
+exit /b %errorlevel%
+
