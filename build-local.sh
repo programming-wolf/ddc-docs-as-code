@@ -6,7 +6,7 @@ set -eu
 cd "$(dirname "$0")"
 
 # Was gebaut wird
-FORMATS="html"
+FORMATS="html pdf"
 DOC=docs/arc42-template.adoc
 
 # Befehl im ruby-Container ausführen, mit diesem Ordner als /work
@@ -21,7 +21,7 @@ run() {
 [ -x .gems/bin/asciidoctor-pdf ] ||
   run gem install --no-document asciidoctor:2.0.26 asciidoctor-pdf:2.3.27
 
-for theme in ${*:-default}; do
+for theme in ${*:-ddc}; do
   out=build/$theme
 
   for format in $FORMATS; do
@@ -44,6 +44,7 @@ for theme in ${*:-default}; do
         run asciidoctor-pdf -D "$out" \
           -a pdf-themesdir=/work/pdf-theme/themes -a pdf-theme="$theme" \
           -a pdf-fontsdir="/work/pdf-theme/$theme/fonts;GEM_FONTS_DIR" \
+          -a revnumber=1.0.0 -a revdate="26. November 2026" \
           "$DOC" ;;
       *) echo "Unbekanntes Format: $format" >&2; exit 1 ;;
     esac

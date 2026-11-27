@@ -8,7 +8,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 rem Was gebaut wird
-set "FORMATS=html"
+set "FORMATS=html pdf"
 set "DOC=docs/arc42-template.adoc"
 set "IMAGE=ruby:4.0.10-alpine3.24"
 
@@ -20,7 +20,7 @@ if not exist ".gems\bin\asciidoctor-pdf" (
 )
 
 set "THEMES=%*"
-if "%THEMES%"=="" set "THEMES=default"
+if "%THEMES%"=="" set "THEMES=ddc"
 
 for %%T in (%THEMES%) do (
   call :build %%T
