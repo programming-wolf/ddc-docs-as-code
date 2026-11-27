@@ -8,11 +8,13 @@
 include::src/config.adoc[]
 
 = arc42 Template
+The best way to document your architecture
 :revnumber: {revnumber}
 :revdate: {revdate}
 :revremark: {revremark}
 // toc-title definition MUST follow document title without blank line!
 :toc-title: Inhaltsverzeichnis
+:title-page:
 
 //additional style for arc42 help callouts
 include::src/arc42-help-style.adoc[]
